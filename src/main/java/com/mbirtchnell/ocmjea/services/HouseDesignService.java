@@ -26,7 +26,7 @@ public class HouseDesignService
 		currentCustomer = new Customer();
 	}
 	
-	public void create()
+	public void create(String name)
 	{
 		currentHouseDesign = new CompletedDesign();
 

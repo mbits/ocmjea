@@ -14,6 +14,7 @@ public class CompletedDesign
 	@Id @GeneratedValue private int id;
 	@ManyToOne private Customer customer;
     @ManyToMany private List<Product> products;
+    private String name;
 
 	public int getId()
 	{
@@ -43,5 +44,15 @@ public class CompletedDesign
 	public void setCustomer(Customer customer)
 	{
 		this.customer = customer;
+	}
+
+	public String getName() 
+	{
+		return name;
+	}
+	
+	public void setName(String name)
+	{
+		this.name = name;
 	}
 }

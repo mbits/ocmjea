@@ -1,12 +1,17 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" 
-   xmlns:h="http://java.sun.com/jsf/html" >
+   xmlns:h="http://java.sun.com/jsf/html" 
+   xmlns:f="http://java.sun.com/jsf/core">
     <head>
         <title>Factory Homes</title>
     </head>
     <body>
     	<h:form>
+    		<h:selectOneMenu>
+    			<f:selectItems value="#{houseDesignController.completedDesignMap}"></f:selectItems>
+    		</h:selectOneMenu>
+    	
     		<h:commandButton action="#{houseDesignController.newHouseDesign()}" value="New House Design"></h:commandButton>"
 			<h:outputText value="New House Design created!"></h:outputText>
 		</h:form>
