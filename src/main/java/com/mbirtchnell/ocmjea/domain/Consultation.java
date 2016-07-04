@@ -14,7 +14,7 @@ public class Consultation
 	@Id @GeneratedValue private int id;
 	@ManyToOne private Customer customer;
 	@OneToMany private List<CompletedDesign> completedDesigns;
-	@ManyToOne private List<FieldSalesRepresentatives> fieldSalesRepresentatives;
+	@ManyToOne private FieldSalesRepresentative fieldSalesRepresentative;
 
 	public int getId()
 	{
@@ -40,12 +40,12 @@ public class Consultation
 	{
 		this.completedDesigns = completedDesigns;
 	}
-	public List<FieldSalesRepresentatives> getFieldSalesRepresentatives()
+	public FieldSalesRepresentative getFieldSalesRepresentative()
 	{
-		return fieldSalesRepresentatives;
+		return fieldSalesRepresentative;
 	}
-	public void setFieldSalesRepresentatives(List<FieldSalesRepresentatives> fieldSalesRepresentatives)
+	public void setFieldSalesRepresentative(FieldSalesRepresentative fieldSalesRepresentative)
 	{
-		this.fieldSalesRepresentatives = fieldSalesRepresentatives;
+		this.fieldSalesRepresentative = fieldSalesRepresentative;
 	}
 } 
