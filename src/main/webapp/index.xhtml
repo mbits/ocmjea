@@ -33,7 +33,12 @@
     		</h:panelGroup>
     		<h:panelGroup rendered="#{houseDesignController.selectedComponent != null}">
     			<h:outputText value="#{houseDesignController.selectedComponent.details}"></h:outputText>
-    			<h:commandButton action="#{houseDesignController.addComponentToHouseDesign()}" value="Add to House Design"></h:commandButton>
+    			<div>
+    				<h:commandButton action="#{houseDesignController.addComponentToHouseDesign()}" value="Add to House Design"></h:commandButton>
+    			</div>
+    			<div>
+    				<h:outputText value="#{houseDesignController.outputProduct()}"></h:outputText>
+    			</div>
     		</h:panelGroup>
     	</h:form>
     </body>

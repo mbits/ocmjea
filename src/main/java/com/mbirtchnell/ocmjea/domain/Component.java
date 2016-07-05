@@ -1,5 +1,6 @@
 package com.mbirtchnell.ocmjea.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -15,6 +16,7 @@ public abstract class Component
 	private String name;
 	private String details;
 	private boolean isAvailable;
+	private boolean isApplicable;
 	@ManyToOne private Component parent;
 	@OneToMany(mappedBy="parent") private List<Component> childComponents;
 
@@ -58,6 +60,16 @@ public abstract class Component
 		this.isAvailable = isAvailable;
 	}
 
+	public boolean isApplicable() 
+	{
+		return isApplicable;
+	}
+
+	public void setApplicable(boolean isApplicable) 
+	{
+		this.isApplicable = isApplicable;
+	}
+
 	public Component getParent()
 	{
 		return parent;
@@ -76,6 +88,15 @@ public abstract class Component
 	public void setChildComponents(List<Component> childComponents)
 	{
 		this.childComponents = childComponents;
+	}
+	
+	public void addToChildComponents(Component component)
+	{
+		List<Component> childComponents = getChildComponents();
+		if(childComponents == null)
+			childComponents = new ArrayList<Component>();
+		childComponents.add(component);
+		setChildComponents(childComponents);
 	}
 
 	@Override

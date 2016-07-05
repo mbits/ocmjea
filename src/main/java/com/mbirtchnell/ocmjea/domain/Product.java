@@ -34,4 +34,14 @@ public class Product
 	{
 		this.completedDesigns = completedDesigns;
 	}
+
+	public House getHouse() 
+	{
+		return house;
+	}
+
+	public void setHouse(House house) 
+	{
+		this.house = house;
+	}
 }

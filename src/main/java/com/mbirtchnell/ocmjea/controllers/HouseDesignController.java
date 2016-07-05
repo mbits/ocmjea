@@ -1,5 +1,6 @@
 package com.mbirtchnell.ocmjea.controllers;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,19 +9,21 @@ import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
-import com.mbirtchnell.ocmjea.domain.CompletedDesign;
 import com.mbirtchnell.ocmjea.domain.Component;
 import com.mbirtchnell.ocmjea.domain.ComponentCategory;
+import com.mbirtchnell.ocmjea.domain.House;
+import com.mbirtchnell.ocmjea.domain.Product;
 import com.mbirtchnell.ocmjea.services.HouseDesignService;
 
+@SuppressWarnings("serial")
 @Named
 @SessionScoped
-public class HouseDesignController
+public class HouseDesignController implements Serializable
 {
 	@EJB private HouseDesignService houseDesignService;
 	private String houseDesignName;
-	private CompletedDesign currentHouseDesign;
-	private List<CompletedDesign> currentHouseDesigns = new ArrayList<CompletedDesign>();
+	private Product currentHouseDesign;
+	private List<Product> currentHouseDesigns = new ArrayList<Product>();
 	private ComponentCategory selectedComponentCategory;
 	private List<ComponentCategory> componentCategories = new ArrayList<ComponentCategory>();
 	private List<Component> components = new ArrayList<Component>();
@@ -34,7 +37,10 @@ public class HouseDesignController
 	
 	public void newHouseDesign()
 	{
-		currentHouseDesign = new CompletedDesign();
+		currentHouseDesign = new Product();
+		House house = new House();
+		house.setName("New House");
+		currentHouseDesign.setHouse(house);
 		currentHouseDesigns.add(currentHouseDesign);
 	}
 
@@ -46,15 +52,24 @@ public class HouseDesignController
 
 	public void addComponentToHouseDesign()
 	{
-		
+		if(selectedComponent.isAvailable() && selectedComponent.isApplicable())
+		{
+			House house = currentHouseDesign.getHouse();
+			if(house != null && selectedComponent != null)
+				house.addToChildComponents(selectedComponent);
+		}
+		else
+		{
+			throw new IllegalStateException("Selected component cannot be added.");
+		}
 	}
 	
-	public CompletedDesign getCompletedDesign()
+	public Product getCompletedDesign()
 	{
 		return currentHouseDesign;
 	}
 	
-	public void setCompletedDesign(CompletedDesign completedDesign)
+	public void setCompletedDesign(Product completedDesign)
 	{
 		this.currentHouseDesign = completedDesign;
 	}
@@ -69,22 +84,22 @@ public class HouseDesignController
 		this.houseDesignName = houseDesignName;
 	}
 
-	public CompletedDesign getCurrentHouseDesign()
+	public Product getCurrentHouseDesign()
 	{
 		return currentHouseDesign;
 	}
 
-	public void setCurrentHouseDesign(CompletedDesign currentHouseDesign)
+	public void setCurrentHouseDesign(Product currentHouseDesign)
 	{
 		this.currentHouseDesign = currentHouseDesign;
 	}
 
-	public List<CompletedDesign> getCurrentHouseDesigns()
+	public List<Product> getCurrentHouseDesigns()
 	{
 		return currentHouseDesigns;
 	}
 
-	public void setCurrentHouseDesigns(List<CompletedDesign> currentHouseDesigns)
+	public void setCurrentHouseDesigns(List<Product> currentHouseDesigns)
 	{
 		this.currentHouseDesigns = currentHouseDesigns;
 	}
@@ -127,5 +142,22 @@ public class HouseDesignController
 	public void setSelectedComponent(Component selectedComponent)
 	{
 		this.selectedComponent = selectedComponent;
+	}
+	
+	public String outputProduct()
+	{
+		String output = "";
+		House house = currentHouseDesign.getHouse();
+		if(house != null)
+			output += house.getName() + " = ";
+		if(house != null && house.getChildComponents() != null)
+		{
+			for(Component child : house.getChildComponents())
+			{
+				output += child.getName() + " + ";
+			}
+		}
+		
+		return output;
 	}
 }
