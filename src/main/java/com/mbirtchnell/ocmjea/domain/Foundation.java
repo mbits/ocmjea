@@ -5,7 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
-public class Foundation
+public class Foundation extends Component
 {
 	@Id @GeneratedValue private int id;
 }

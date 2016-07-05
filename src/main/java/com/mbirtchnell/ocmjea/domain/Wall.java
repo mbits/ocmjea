@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 @Entity
-public class Wall
+public class Wall extends Component
 {
 	@Id @GeneratedValue private int id;
 	@OneToMany List<Aperture> apertures;

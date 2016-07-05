@@ -5,7 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
-public abstract class Aperture
+public abstract class Aperture extends Component
 {
 	@Id @GeneratedValue protected int id;
 

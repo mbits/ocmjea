@@ -5,7 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
-public class Roof
+public class Roof extends Component
 {
 	@Id @GeneratedValue private int id;
 }

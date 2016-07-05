@@ -9,7 +9,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 @Entity
-public class House
+public class House extends Component
 {
 	@Id @GeneratedValue private int id;
 	@OneToOne private Foundation foundation;

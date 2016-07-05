@@ -15,7 +15,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-version="4.7.1"
+version="4.7.4"
 port=8080
 
 DEBUG=
@@ -62,13 +62,13 @@ PRGDIR=`dirname "$PRG"`
 
 . "$TOMEE_HOME"/bin/setclasspath.sh
 
-if [ -d $JAVA_HOME ]; then
-  JAVA=$JAVA_HOME"/bin/java"
-else
+if [ -z $JAVA_HOME ]; then
   JAVA="java"
+else
+  JAVA=$JAVA_HOME"/bin/java"
 fi
 
-CP=""
+CP="$TOMEE_HOME/lib"
 for i in $TOMEE_HOME/lib/*.jar; do
   CP="$CP:$i"
 done

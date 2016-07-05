@@ -1,48 +1,132 @@
 package com.mbirtchnell.ocmjea.controllers;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.bean.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
 import com.mbirtchnell.ocmjea.domain.CompletedDesign;
+import com.mbirtchnell.ocmjea.domain.Component;
+import com.mbirtchnell.ocmjea.domain.ComponentCategory;
 import com.mbirtchnell.ocmjea.services.HouseDesignService;
 
 @Named
-@RequestScoped
+@SessionScoped
 public class HouseDesignController
 {
 	@EJB private HouseDesignService houseDesignService;
-	private Map<String, CompletedDesign> completedDesignMap = 
-			new HashMap<String, CompletedDesign>();
-	
+	private String houseDesignName;
+	private CompletedDesign currentHouseDesign;
+	private List<CompletedDesign> currentHouseDesigns = new ArrayList<CompletedDesign>();
+	private ComponentCategory selectedComponentCategory;
+	private List<ComponentCategory> componentCategories = new ArrayList<ComponentCategory>();
+	private List<Component> components = new ArrayList<Component>();
+	private Component selectedComponent;
+
 	@PostConstruct
 	public void init()
 	{
-		List<CompletedDesign> designs = 
-				houseDesignService.getCurrentCustomer().getCompletedDesigns();
-		for(CompletedDesign design : designs)
-		{
-			completedDesignMap.put(design.getName(), design);
-		}
+		setComponentCategories(houseDesignService.getComponentCategories());
 	}
-
+	
 	public void newHouseDesign()
 	{
-		houseDesignService.create("New Design");
+		System.out.println("Creating new house design");
+		currentHouseDesign = new CompletedDesign();
+		currentHouseDesigns.add(currentHouseDesign);
 	}
 
-	public Map<String, CompletedDesign> getCompletedDesignMap() 
+	public void getComponentsForCategory()
 	{
-		return completedDesignMap;
+		List<Component> components = houseDesignService.getComponentsForComponentCategory(selectedComponentCategory, currentHouseDesign);
+		setComponents(components);
 	}
 
-	public void setCompletedDesignMap(Map<String, CompletedDesign> completedDesignMap) 
+	public void addComponentToHouseDesign()
 	{
-		this.completedDesignMap = completedDesignMap;
+		
+	}
+	
+	public CompletedDesign getCompletedDesign()
+	{
+		return currentHouseDesign;
+	}
+	
+	public void setCompletedDesign(CompletedDesign completedDesign)
+	{
+		this.currentHouseDesign = completedDesign;
+	}
+
+	public String getHouseDesignName()
+	{
+		return houseDesignName;
+	}
+
+	public void setHouseDesignName(String houseDesignName)
+	{
+		this.houseDesignName = houseDesignName;
+	}
+
+	public CompletedDesign getCurrentHouseDesign()
+	{
+		return currentHouseDesign;
+	}
+
+	public void setCurrentHouseDesign(CompletedDesign currentHouseDesign)
+	{
+		this.currentHouseDesign = currentHouseDesign;
+	}
+
+	public List<CompletedDesign> getCurrentHouseDesigns()
+	{
+		return currentHouseDesigns;
+	}
+
+	public void setCurrentHouseDesigns(List<CompletedDesign> currentHouseDesigns)
+	{
+		this.currentHouseDesigns = currentHouseDesigns;
+	}
+
+	public ComponentCategory getSelectedComponentCategory()
+	{
+		return selectedComponentCategory;
+	}
+
+	public void setSelectedComponentCategory(ComponentCategory selectedComponentCategory)
+	{
+		this.selectedComponentCategory = selectedComponentCategory;
+	}
+
+	public List<ComponentCategory> getComponentCategories()
+	{
+		return componentCategories;
+	}
+
+	public void setComponentCategories(List<ComponentCategory> componentCategories)
+	{
+		this.componentCategories = componentCategories;
+	}
+	
+	public List<Component> getComponents()
+	{
+		return components;
+	}
+
+	public void setComponents(List<Component> components)
+	{
+		this.components = components;
+	}
+
+	public Component getSelectedComponent()
+	{
+		return selectedComponent;
+	}
+
+	public void setSelectedComponent(Component selectedComponent)
+	{
+		this.selectedComponent = selectedComponent;
 	}
 }

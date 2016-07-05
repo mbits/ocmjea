@@ -7,13 +7,34 @@
         <title>Factory Homes</title>
     </head>
     <body>
-    	<h:form>
-    		<h:selectOneMenu>
-    			<f:selectItems value="#{houseDesignController.completedDesignMap}"></f:selectItems>
-    		</h:selectOneMenu>
-    	
-    		<h:commandButton action="#{houseDesignController.newHouseDesign()}" value="New House Design"></h:commandButton>"
-			<h:outputText value="New House Design created!"></h:outputText>
-		</h:form>
+   	 	<h:form>
+    		<div>
+    			<h:inputText value="#{houseDesignController.houseDesignName}"></h:inputText>
+    			<h:commandButton action="#{houseDesignController.newHouseDesign()}" value="New House Design"></h:commandButton>
+    		</div>
+    	 	<h:panelGroup rendered="#{houseDesignController.currentHouseDesign != null and not empty houseDesignController.componentCategories}">
+	    	 	<div>
+	    	 		<label>Component Categories: </label>
+	    			<h:selectOneMenu value="#{houseDesignController.selectedComponentCategory}"> 
+	    				<f:selectItem itemLabel="-- Select --" />
+	    				<f:selectItems value="#{houseDesignController.componentCategories}" var="item" itemValue="#{item}" itemLabel="#{item.name}"></f:selectItems>
+	    			</h:selectOneMenu>
+	    			<h:commandButton action="#{houseDesignController.getComponentsForCategory()}" value="Get Components for Category"></h:commandButton>
+	    		</div>
+    		</h:panelGroup>
+    		<h:panelGroup rendered="#{not empty houseDesignController.components}">
+	    		<div>
+	    	 		<label>Components: </label>
+	    			<h:selectOneMenu value="#{houseDesignController.selectedComponent}" onchange="submit()"> 
+	    				<f:selectItem itemLabel="-- Select --" />
+	    				<f:selectItems value="#{houseDesignController.components}" var="item" itemValue="#{item}" itemLabel="#{item.name}"></f:selectItems>
+	    			</h:selectOneMenu>
+	    		</div>
+    		</h:panelGroup>
+    		<h:panelGroup rendered="#{houseDesignController.selectedComponent != null}">
+    			<h:outputText value="#{houseDesignController.selectedComponent.details}"></h:outputText>
+    			<h:commandButton action="#{houseDesignController.addComponentToHouseDesign()}" value="Add to House Design"></h:commandButton>
+    		</h:panelGroup>
+    	</h:form>
     </body>
 </html>
