@@ -34,7 +34,6 @@ public class HouseDesignController
 	
 	public void newHouseDesign()
 	{
-		System.out.println("Creating new house design");
 		currentHouseDesign = new CompletedDesign();
 		currentHouseDesigns.add(currentHouseDesign);
 	}

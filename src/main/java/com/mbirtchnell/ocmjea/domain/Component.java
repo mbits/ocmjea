@@ -1,11 +1,33 @@
 package com.mbirtchnell.ocmjea.domain;
 
+import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
+@Entity
 public abstract class Component
 {
+	@Id @GeneratedValue private int id;
 	private String name;
 	private String details;
 	private boolean isAvailable;
+	@ManyToOne private Component parent;
+	@OneToMany(mappedBy="parent") private List<Component> childComponents;
 
+	public int getId()
+	{
+		return id;
+	}
+
+	public void setId(int id)
+	{
+		this.id = id;
+	}
+	
 	public String getName()
 	{
 		return name;
@@ -20,17 +42,40 @@ public abstract class Component
 	{
 		return details;
 	}
+	
 	public void setDetails(String details)
 	{
 		this.details = details;
 	}
+	
 	public boolean isAvailable()
 	{
 		return isAvailable;
 	}
+	
 	public void setAvailable(boolean isAvailable)
 	{
 		this.isAvailable = isAvailable;
+	}
+
+	public Component getParent()
+	{
+		return parent;
+	}
+
+	public void setParent(Component parent)
+	{
+		this.parent = parent;
+	}
+
+	public List<Component> getChildComponents()
+	{
+		return childComponents;
+	}
+
+	public void setChildComponents(List<Component> childComponents)
+	{
+		this.childComponents = childComponents;
 	}
 
 	@Override
