@@ -1,4 +1,4 @@
-package com.mbirtchnell.ocmjea.controllers;
+package com.mbirtchnell.ocmjea.converters;
 
 import java.util.List;
 
@@ -7,18 +7,19 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-import com.mbirtchnell.ocmjea.domain.ComponentCategory;
+import com.mbirtchnell.ocmjea.controllers.HouseDesignController;
+import com.mbirtchnell.ocmjea.domain.House;
 
-@FacesConverter(forClass=ComponentCategory.class)
-public class ComponentCategoryConverter implements Converter 
+@FacesConverter(forClass=House.class)
+public class HouseConverter implements Converter 
 {
 	public Object getAsObject(FacesContext context, UIComponent uiComponent, String value)
 	{
 		HouseDesignController viewBean = context.getApplication().evaluateExpressionGet(context, "#{houseDesignController}", HouseDesignController.class);
-		List<ComponentCategory> components = viewBean.getComponentCategories(); 
+		List<House> components = viewBean.getHouseDesigns(); 
 		
-		ComponentCategory foundComponent = null;
-		for(ComponentCategory component : components)
+		House foundComponent = null;
+		for(House component : components)
 		{
 			if(component.getName().equals(value))
 			{
@@ -32,10 +33,10 @@ public class ComponentCategoryConverter implements Converter
 	public String getAsString(FacesContext context, UIComponent uiComponent, Object obj)
 	{
 		HouseDesignController viewBean = context.getApplication().evaluateExpressionGet(context, "#{houseDesignController}", HouseDesignController.class);
-		List<ComponentCategory> components = viewBean.getComponentCategories(); 
+		List<House> components = viewBean.getHouseDesigns(); 
 		
 		String foundComponent = null;
-		for(ComponentCategory component : components)
+		for(House component : components)
 		{
 			if(component.equals(obj))
 			{

@@ -1,4 +1,4 @@
-package com.mbirtchnell.ocmjea.controllers;
+package com.mbirtchnell.ocmjea.converters;
 
 import java.util.List;
 
@@ -7,6 +7,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
+import com.mbirtchnell.ocmjea.controllers.HouseDesignController;
 import com.mbirtchnell.ocmjea.domain.Component;
 
 @FacesConverter(forClass=Component.class)

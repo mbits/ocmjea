@@ -9,10 +9,12 @@
     <body>
    	 	<h:form>
     		<div>
-    			<h:inputText value="#{houseDesignController.houseDesignName}"></h:inputText>
-    			<h:commandButton action="#{houseDesignController.newHouseDesign()}" value="New House Design"></h:commandButton>
+    			<h:selectOneMenu value="#{houseDesignController.selectedHouseDesign}" onchange="submit()">
+    				<f:selectItem itemLabel="-- Select --" />
+    				<f:selectItems value="#{houseDesignController.houseDesigns}" var="item" itemValue="#{item}" itemLabel="#{item.name}"></f:selectItems>
+    			</h:selectOneMenu>
     		</div>
-    	 	<h:panelGroup rendered="#{houseDesignController.currentHouseDesign != null and not empty houseDesignController.componentCategories}">
+    	 	<h:panelGroup rendered="#{houseDesignController.selectedHouseDesign != null}">
 	    	 	<div>
 	    	 		<label>Component Categories: </label>
 	    			<h:selectOneMenu value="#{houseDesignController.selectedComponentCategory}"> 
@@ -32,12 +34,13 @@
 	    		</div>
     		</h:panelGroup>
     		<h:panelGroup rendered="#{houseDesignController.selectedComponent != null}">
-    			<h:outputText value="#{houseDesignController.selectedComponent.details}"></h:outputText>
     			<div>
+	    			<h:outputText value="#{houseDesignController.selectedComponent.name}: "></h:outputText>
     				<h:commandButton action="#{houseDesignController.addComponentToHouseDesign()}" value="Add to House Design"></h:commandButton>
     			</div>
+    			<br/>
     			<div>
-    				<h:outputText value="#{houseDesignController.outputProduct()}"></h:outputText>
+    				<h:outputText value="#{houseDesignController.selectedHouseDesign.summary}"></h:outputText>
     			</div>
     		</h:panelGroup>
     	</h:form>

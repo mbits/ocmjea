@@ -12,7 +12,6 @@ import javax.inject.Named;
 import com.mbirtchnell.ocmjea.domain.Component;
 import com.mbirtchnell.ocmjea.domain.ComponentCategory;
 import com.mbirtchnell.ocmjea.domain.House;
-import com.mbirtchnell.ocmjea.domain.Product;
 import com.mbirtchnell.ocmjea.services.HouseDesignService;
 
 @SuppressWarnings("serial")
@@ -22,9 +21,9 @@ public class HouseDesignController implements Serializable
 {
 	@EJB private HouseDesignService houseDesignService;
 	private String houseDesignName;
-	private Product currentHouseDesign;
-	private List<Product> currentHouseDesigns = new ArrayList<Product>();
+	private House selectedHouseDesign;
 	private ComponentCategory selectedComponentCategory;
+	private List<House> houseDesigns = new ArrayList<House>();
 	private List<ComponentCategory> componentCategories = new ArrayList<ComponentCategory>();
 	private List<Component> components = new ArrayList<Component>();
 	private Component selectedComponent;
@@ -32,46 +31,19 @@ public class HouseDesignController implements Serializable
 	@PostConstruct
 	public void init()
 	{
+		setHouseDesigns(houseDesignService.getHouseDesigns());
 		setComponentCategories(houseDesignService.getComponentCategories());
-	}
-	
-	public void newHouseDesign()
-	{
-		currentHouseDesign = new Product();
-		House house = new House();
-		house.setName("New House");
-		currentHouseDesign.setHouse(house);
-		currentHouseDesigns.add(currentHouseDesign);
 	}
 
 	public void getComponentsForCategory()
 	{
-		List<Component> components = houseDesignService.getComponentsForComponentCategory(selectedComponentCategory, currentHouseDesign);
+		List<Component> components = houseDesignService.getComponentsForComponentCategory(selectedComponentCategory, selectedHouseDesign);
 		setComponents(components);
 	}
 
 	public void addComponentToHouseDesign()
 	{
-		if(selectedComponent.isAvailable() && selectedComponent.isApplicable())
-		{
-			House house = currentHouseDesign.getHouse();
-			if(house != null && selectedComponent != null)
-				house.addToChildComponents(selectedComponent);
-		}
-		else
-		{
-			throw new IllegalStateException("Selected component cannot be added.");
-		}
-	}
-	
-	public Product getCompletedDesign()
-	{
-		return currentHouseDesign;
-	}
-	
-	public void setCompletedDesign(Product completedDesign)
-	{
-		this.currentHouseDesign = completedDesign;
+		houseDesignService.addComponentToHouse(selectedHouseDesign, selectedComponent);
 	}
 
 	public String getHouseDesignName()
@@ -83,25 +55,15 @@ public class HouseDesignController implements Serializable
 	{
 		this.houseDesignName = houseDesignName;
 	}
-
-	public Product getCurrentHouseDesign()
+	
+	public House getSelectedHouseDesign()
 	{
-		return currentHouseDesign;
+		return selectedHouseDesign;
 	}
 
-	public void setCurrentHouseDesign(Product currentHouseDesign)
+	public void setSelectedHouseDesign(House selectedHouseDesign)
 	{
-		this.currentHouseDesign = currentHouseDesign;
-	}
-
-	public List<Product> getCurrentHouseDesigns()
-	{
-		return currentHouseDesigns;
-	}
-
-	public void setCurrentHouseDesigns(List<Product> currentHouseDesigns)
-	{
-		this.currentHouseDesigns = currentHouseDesigns;
+		this.selectedHouseDesign = selectedHouseDesign;
 	}
 
 	public ComponentCategory getSelectedComponentCategory()
@@ -112,6 +74,16 @@ public class HouseDesignController implements Serializable
 	public void setSelectedComponentCategory(ComponentCategory selectedComponentCategory)
 	{
 		this.selectedComponentCategory = selectedComponentCategory;
+	}
+	
+	public List<House> getHouseDesigns()
+	{
+		return houseDesigns;
+	}
+
+	public void setHouseDesigns(List<House> houseDesigns)
+	{
+		this.houseDesigns = houseDesigns;
 	}
 
 	public List<ComponentCategory> getComponentCategories()
@@ -142,22 +114,5 @@ public class HouseDesignController implements Serializable
 	public void setSelectedComponent(Component selectedComponent)
 	{
 		this.selectedComponent = selectedComponent;
-	}
-	
-	public String outputProduct()
-	{
-		String output = "";
-		House house = currentHouseDesign.getHouse();
-		if(house != null)
-			output += house.getName() + " = ";
-		if(house != null && house.getChildComponents() != null)
-		{
-			for(Component child : house.getChildComponents())
-			{
-				output += child.getName() + " + ";
-			}
-		}
-		
-		return output;
 	}
 }
