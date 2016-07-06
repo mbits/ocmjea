@@ -11,7 +11,7 @@
     		<div>
     			<h:selectOneMenu value="#{houseDesignController.selectedHouseDesign}" onchange="submit()">
     				<f:selectItem itemLabel="-- Select --" />
-    				<f:selectItems value="#{houseDesignController.houseDesigns}" var="item" itemValue="#{item}" itemLabel="#{item.name}"></f:selectItems>
+    				<f:selectItems value="#{houseDesignController.houseDesigns}" var="itemForHouse" itemValue="#{itemForHouse}" itemLabel="#{itemForHouse.name}"></f:selectItems>
     			</h:selectOneMenu>
     		</div>
     	 	<h:panelGroup rendered="#{houseDesignController.selectedHouseDesign != null}">
@@ -19,7 +19,7 @@
 	    	 		<label>Component Categories: </label>
 	    			<h:selectOneMenu value="#{houseDesignController.selectedComponentCategory}"> 
 	    				<f:selectItem itemLabel="-- Select --" />
-	    				<f:selectItems value="#{houseDesignController.componentCategories}" var="item" itemValue="#{item}" itemLabel="#{item.name}"></f:selectItems>
+	    				<f:selectItems value="#{houseDesignController.componentCategories}" var="itemForComponentCategory" itemValue="#{itemForComponentCategory}" itemLabel="#{itemForComponentCategory.name}"></f:selectItems>
 	    			</h:selectOneMenu>
 	    			<h:commandButton action="#{houseDesignController.getComponentsForCategory()}" value="Get Components for Category"></h:commandButton>
 	    		</div>
@@ -29,7 +29,7 @@
 	    	 		<label>Components: </label>
 	    			<h:selectOneMenu value="#{houseDesignController.selectedComponent}" onchange="submit()"> 
 	    				<f:selectItem itemLabel="-- Select --" />
-	    				<f:selectItems value="#{houseDesignController.components}" var="item" itemValue="#{item}" itemLabel="#{item.name}"></f:selectItems>
+	    				<f:selectItems value="#{houseDesignController.components}" var="itemForComponent" itemValue="#{itemForComponent}" itemLabel="#{itemForComponent.name}"></f:selectItems>
 	    			</h:selectOneMenu>
 	    		</div>
     		</h:panelGroup>
@@ -38,11 +38,11 @@
 	    			<h:outputText value="#{houseDesignController.selectedComponent.name}: "></h:outputText>
     				<h:commandButton action="#{houseDesignController.addComponentToHouseDesign()}" value="Add to House Design"></h:commandButton>
     			</div>
-    			<br/>
-    			<div>
-    				<h:outputText value="#{houseDesignController.selectedHouseDesign.summary}"></h:outputText>
-    			</div>
     		</h:panelGroup>
+    		<br/>
+   			<div>
+   				<h:outputText value="#{houseDesignController.selectedHouseDesign.summary}"></h:outputText>
+   			</div>
     	</h:form>
     </body>
 </html>

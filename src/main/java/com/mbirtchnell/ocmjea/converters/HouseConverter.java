@@ -21,7 +21,7 @@ public class HouseConverter implements Converter
 		House foundComponent = null;
 		for(House component : components)
 		{
-			if(component.getName().equals(value))
+			if(component.getId().equals(value))
 			{
 				foundComponent = component;
 				break;
@@ -40,7 +40,7 @@ public class HouseConverter implements Converter
 		{
 			if(component.equals(obj))
 			{
-				foundComponent = component.getName();
+				foundComponent = component.getId();
 				break;
 			}
 		}

@@ -1,15 +1,6 @@
 package com.mbirtchnell.ocmjea.domain;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-
-public interface Component
+public interface Component extends Prototypable
 {
 //	@Id @GeneratedValue private int id;
 //	private String name;
@@ -19,12 +10,12 @@ public interface Component
 //	@ManyToOne private Component parent;
 //	@OneToMany(mappedBy="parent") private List<Component> childComponents;
 
-//	public int getId()
+	public String getId();
 //	{
 //		return id;
 //	}
 //
-//	public void setId(int id)
+	public void setId(String id);
 //	{
 //		this.id = id;
 //	}

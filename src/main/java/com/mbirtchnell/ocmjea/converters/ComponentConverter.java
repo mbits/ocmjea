@@ -21,7 +21,7 @@ public class ComponentConverter implements Converter
 		Component foundComponent = null;
 		for(Component component : components)
 		{
-			if(component.getName().equals(value))
+			if(component.getId().equals(value))
 			{
 				foundComponent = component;
 				break;
@@ -40,7 +40,7 @@ public class ComponentConverter implements Converter
 		{
 			if(component.equals(obj))
 			{
-				foundComponent = component.getName();
+				foundComponent = component.getId();
 				break;
 			}
 		}

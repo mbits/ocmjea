@@ -1,7 +1,6 @@
 package com.mbirtchnell.ocmjea.controllers;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -23,26 +22,28 @@ public class HouseDesignController implements Serializable
 	private String houseDesignName;
 	private House selectedHouseDesign;
 	private ComponentCategory selectedComponentCategory;
-	private List<House> houseDesigns = new ArrayList<House>();
-	private List<ComponentCategory> componentCategories = new ArrayList<ComponentCategory>();
-	private List<Component> components = new ArrayList<Component>();
+	private List<House> houseDesigns;
+	private List<ComponentCategory> componentCategories;
+	private List<Component> components;
 	private Component selectedComponent;
 
 	@PostConstruct
 	public void init()
 	{
-		setHouseDesigns(houseDesignService.getHouseDesigns());
-		setComponentCategories(houseDesignService.getComponentCategories());
+		if(getHouseDesigns() == null)
+			setHouseDesigns(houseDesignService.getHouseDesigns());
+		if(getComponentCategories() == null)
+			setComponentCategories(houseDesignService.getComponentCategories());
 	}
 
 	public void getComponentsForCategory()
 	{
-		List<Component> components = houseDesignService.getComponentsForComponentCategory(selectedComponentCategory, selectedHouseDesign);
-		setComponents(components);
+		components = houseDesignService.getComponentsForComponentCategory(selectedComponentCategory, selectedHouseDesign);
 	}
 
 	public void addComponentToHouseDesign()
 	{
+		components = null;
 		houseDesignService.addComponentToHouse(selectedHouseDesign, selectedComponent);
 	}
 

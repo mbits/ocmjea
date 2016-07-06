@@ -11,7 +11,6 @@ import javax.persistence.PersistenceContext;
 import com.mbirtchnell.ocmjea.domain.Aperture;
 import com.mbirtchnell.ocmjea.domain.Component;
 import com.mbirtchnell.ocmjea.domain.ComponentCategory;
-import com.mbirtchnell.ocmjea.domain.ComponentFactory;
 import com.mbirtchnell.ocmjea.domain.Foundation;
 import com.mbirtchnell.ocmjea.domain.House;
 import com.mbirtchnell.ocmjea.domain.Roof;
@@ -30,74 +29,30 @@ public class HouseDesignService
 
 	public List<Component> getComponentsForComponentCategory(ComponentCategory selectedComponentCategory, House houseDesign)
 	{
-		System.out.println("Getting components for ComponentCategory " + selectedComponentCategory.getName());
-		List<Component> components = new ArrayList<Component>();
-		if("Door".equals(selectedComponentCategory.getName()))
-		{
-			Component frenchDoor = ComponentFactory.createComponent(selectedComponentCategory);
-			frenchDoor.setName("French Door");
-//			frenchDoor.setDetails("A classic style.");
-//			frenchDoor.setApplicable(true);
-//			frenchDoor.setAvailable(true);
-			components.add(frenchDoor);
-			Component frontDoor = ComponentFactory.createComponent(selectedComponentCategory);
-			frontDoor.setName("Front Door");
-//			frontDoor.setDetails("Standard type");
-//			frontDoor.setApplicable(true);
-//			frontDoor.setAvailable(true);
-			components.add(frontDoor);
-			Component slidingDoor = ComponentFactory.createComponent(selectedComponentCategory);
-			slidingDoor.setName("Sliding Door");
-//			slidingDoor.setDetails("Floating type");
-//			slidingDoor.setApplicable(true);
-//			slidingDoor.setAvailable(true);
-			components.add(slidingDoor);
-			Component garageDoor = ComponentFactory.createComponent(selectedComponentCategory);
-			garageDoor.setName("Garage Door");
-//			garageDoor.setDetails("Automatic type");
-//			garageDoor.setApplicable(true);
-//			garageDoor.setAvailable(true);
-			components.add(garageDoor);
-		}
-		return components;
+		return InventorySystem.getComponentsForComponentCategory(selectedComponentCategory, houseDesign);
 	}
 
 	public List<House> getHouseDesigns()
 	{
-		List<House> houseDesigns = new ArrayList<House>();
-		
-		House houseOne = new House();
-		houseOne.setName("Californian bungalow");
-		houseDesigns.add(houseOne);
-		House houseTwo = new House();
-		houseTwo.setName("Brick clinker");
-		houseDesigns.add(houseTwo);
-		House houseThree = new House();
-		houseThree.setName("Townhouse");
-		houseDesigns.add(houseThree);
-		House houseFour = new House();
-		houseFour.setName("Family home");
-		houseDesigns.add(houseFour);
-		
-		return houseDesigns;
+		return InventorySystem.getHouseDesigns();
 	}
 
 	public void addComponentToHouse(House selectedHouseDesign, Component selectedComponent)
 	{
 		if(selectedComponent instanceof Foundation)
 		{
-			selectedHouseDesign.setFoundation((Foundation) selectedComponent);
+			selectedHouseDesign.setFoundation((Foundation) selectedComponent.clone());
 		}
 		if(selectedComponent instanceof Roof)
 		{
-			selectedHouseDesign.setRoof((Roof) selectedComponent);
+			selectedHouseDesign.setRoof((Roof) selectedComponent.clone());
 		}
 		if(selectedComponent instanceof Wall)
 		{
 			List<Wall> walls = selectedHouseDesign.getWalls();
 			if(walls == null)
 				walls = new ArrayList<Wall>();
-			walls.add((Wall) selectedComponent);
+			walls.add((Wall) selectedComponent.clone());
 			selectedHouseDesign.setWalls(walls);
 		}
 		if(selectedComponent instanceof Aperture)
@@ -110,7 +65,8 @@ public class HouseDesignService
 					List<Aperture> apertures = wall.getApertures();
 					if(apertures == null)
 						apertures = new ArrayList<Aperture>();
-					apertures.add((Aperture) selectedComponent);
+					apertures.add((Aperture) selectedComponent.clone());
+					wall.setApertures(apertures);
 				}
 			}
 		}
