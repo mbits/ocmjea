@@ -8,18 +8,18 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
 import com.mbirtchnell.ocmjea.controllers.HouseDesignController;
-import com.mbirtchnell.ocmjea.domain.House;
+import com.mbirtchnell.ocmjea.domain.Product;
 
-@FacesConverter(forClass=House.class)
-public class HouseConverter implements Converter 
+@FacesConverter(forClass=Product.class)
+public class ProductConverter implements Converter 
 {
 	public Object getAsObject(FacesContext context, UIComponent uiComponent, String value)
 	{
 		HouseDesignController viewBean = context.getApplication().evaluateExpressionGet(context, "#{houseDesignController}", HouseDesignController.class);
-		List<House> components = viewBean.getHouseDesigns(); 
+		List<Product> components = viewBean.getHouseDesigns();
 		
-		House foundComponent = null;
-		for(House component : components)
+		Product foundComponent = null;
+		for(Product component : components)
 		{
 			if(component.getId().equals(value))
 			{
@@ -33,10 +33,10 @@ public class HouseConverter implements Converter
 	public String getAsString(FacesContext context, UIComponent uiComponent, Object obj)
 	{
 		HouseDesignController viewBean = context.getApplication().evaluateExpressionGet(context, "#{houseDesignController}", HouseDesignController.class);
-		List<House> components = viewBean.getHouseDesigns(); 
+		List<Product> components = viewBean.getHouseDesigns(); 
 		
 		String foundComponent = null;
-		for(House component : components)
+		for(Product component : components)
 		{
 			if(component.equals(obj))
 			{

@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+	<h:body>
+		<ui:composition template="./template.xhtml">
+			<ui:define name="content">
+				<h:form>
+					<h:inputText value="#{consultationController.searchTerm}"></h:inputText>
+					<h:commandButton action="#{consultationController.search}" value="Search"></h:commandButton>
+					<h:panelGroup rendered="#{consultationController.customers != null and not empty consultationController.customers}">
+					<div>
+						<h:selectOneMenu value="#{consultationController.selectedCustomer}" onchange="submit()">
+		    				<f:selectItem itemLabel="-- Select --" />
+		    				<f:selectItems value="#{consultationController.customers}" var="itemForCustomer" itemValue="#{itemForCustomer}" itemLabel="#{itemForCustomer.fullName}"></f:selectItems>
+		    			</h:selectOneMenu>
+		    		</div>
+		    		</h:panelGroup>
+		    		<h:panelGroup rendered="#{consultationController.selectedCustomer != null}">
+		    			<div>
+		    				<h:outputText value="Full Name: #{consultationController.selectedCustomer.fullName}"></h:outputText>
+		    			</div>
+		    			<div>
+		    				<h:outputText value="Email: #{consultationController.selectedCustomer.email}"></h:outputText>
+		    			</div>
+		    			<div>
+		    				<h:outputText value="Phone: #{consultationController.selectedCustomer.phone}"></h:outputText>
+		    			</div>
+		    			<div>
+		    				<h:outputText value="Street: #{consultationController.selectedCustomer.street}"></h:outputText>
+		    			</div>
+		    			<div>
+		    				<h:outputText value="State: #{consultationController.selectedCustomer.state}"></h:outputText>
+		    			</div>
+		    			<div>
+		    				<h:outputText value="Country: #{consultationController.selectedCustomer.country}"></h:outputText>
+		    			</div>
+					</h:panelGroup>
+				</h:form>
+			</ui:define>
+		</ui:composition>
+	</h:body>
+</html>

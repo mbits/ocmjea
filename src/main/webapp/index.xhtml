@@ -1,48 +1,20 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" 
-   xmlns:h="http://java.sun.com/jsf/html" 
-   xmlns:f="http://java.sun.com/jsf/core">
-    <head>
-        <title>Factory Homes</title>
-    </head>
-    <body>
-   	 	<h:form>
-    		<div>
-    			<h:selectOneMenu value="#{houseDesignController.selectedHouseDesign}" onchange="submit()">
-    				<f:selectItem itemLabel="-- Select --" />
-    				<f:selectItems value="#{houseDesignController.houseDesigns}" var="itemForHouse" itemValue="#{itemForHouse}" itemLabel="#{itemForHouse.name}"></f:selectItems>
-    			</h:selectOneMenu>
-    		</div>
-    	 	<h:panelGroup rendered="#{houseDesignController.selectedHouseDesign != null}">
-	    	 	<div>
-	    	 		<label>Component Categories: </label>
-	    			<h:selectOneMenu value="#{houseDesignController.selectedComponentCategory}"> 
-	    				<f:selectItem itemLabel="-- Select --" />
-	    				<f:selectItems value="#{houseDesignController.componentCategories}" var="itemForComponentCategory" itemValue="#{itemForComponentCategory}" itemLabel="#{itemForComponentCategory.name}"></f:selectItems>
-	    			</h:selectOneMenu>
-	    			<h:commandButton action="#{houseDesignController.getComponentsForCategory()}" value="Get Components for Category"></h:commandButton>
-	    		</div>
-    		</h:panelGroup>
-    		<h:panelGroup rendered="#{not empty houseDesignController.components}">
-	    		<div>
-	    	 		<label>Components: </label>
-	    			<h:selectOneMenu value="#{houseDesignController.selectedComponent}" onchange="submit()"> 
-	    				<f:selectItem itemLabel="-- Select --" />
-	    				<f:selectItems value="#{houseDesignController.components}" var="itemForComponent" itemValue="#{itemForComponent}" itemLabel="#{itemForComponent.name}"></f:selectItems>
-	    			</h:selectOneMenu>
-	    		</div>
-    		</h:panelGroup>
-    		<h:panelGroup rendered="#{houseDesignController.selectedComponent != null}">
-    			<div>
-	    			<h:outputText value="#{houseDesignController.selectedComponent.name}: "></h:outputText>
-    				<h:commandButton action="#{houseDesignController.addComponentToHouseDesign()}" value="Add to House Design"></h:commandButton>
-    			</div>
-    		</h:panelGroup>
-    		<br/>
-   			<div>
-   				<h:outputText value="#{houseDesignController.selectedHouseDesign.summary}"></h:outputText>
-   			</div>
-    	</h:form>
-    </body>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+	<h:body>
+		<ui:composition template="./template.xhtml">
+			<ui:define name="content">
+	    	<div>
+	   	 		<a href="searchComponentCatalog.jsf">Search Component Catalog</a>
+	   	 		<a href="addComponentToHouseDesign.jsf">Add Component to House Design</a>
+	   	 	</div>
+	   	 	<div>
+	   	 		<a href="scheduleConsultation.jsf">Schedule Consultation</a>
+	   	 	</div>
+			</ui:define>
+		</ui:composition>
+	</h:body>
 </html>

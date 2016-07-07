@@ -1,10 +1,13 @@
 package com.mbirtchnell.ocmjea.services;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.Future;
 
+import javax.ejb.AsyncResult;
+import javax.ejb.Asynchronous;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -13,6 +16,7 @@ import com.mbirtchnell.ocmjea.domain.Component;
 import com.mbirtchnell.ocmjea.domain.ComponentCategory;
 import com.mbirtchnell.ocmjea.domain.Foundation;
 import com.mbirtchnell.ocmjea.domain.House;
+import com.mbirtchnell.ocmjea.domain.Product;
 import com.mbirtchnell.ocmjea.domain.Roof;
 import com.mbirtchnell.ocmjea.domain.Wall;
 
@@ -21,41 +25,48 @@ public class HouseDesignService
 {
 	@PersistenceContext(unitName = "test")
 	private EntityManager entityManager;
+	
+	@Inject
+	private InventorySystemBroker inventorySystemBroker;
+	
+	@Inject
+	private ModellingSystemBroker modellingSystemBroker;
 
 	public List<ComponentCategory> getComponentCategories()
 	{
-		return Arrays.asList(ComponentCategory.values());
+		return inventorySystemBroker.getComponentCategories();
 	}
 
-	public List<Component> getComponentsForComponentCategory(ComponentCategory selectedComponentCategory, House houseDesign)
+	public List<Component> getComponentsForComponentCategory(ComponentCategory selectedComponentCategory, Product houseDesign)
 	{
-		return InventorySystem.getComponentsForComponentCategory(selectedComponentCategory, houseDesign);
+		return inventorySystemBroker.getComponentsForComponentCategory(selectedComponentCategory, houseDesign);
 	}
 
-	public List<House> getHouseDesigns()
+	public List<Product> getHouseDesigns()
 	{
-		return InventorySystem.getHouseDesigns();
+		return inventorySystemBroker.getHouseDesigns();
 	}
 
-	public void addComponentToHouse(House selectedHouseDesign, Component selectedComponent)
+	public void addComponentToHouseDesign(Product product, Component component)
 	{
-		if(selectedComponent instanceof Foundation)
+		House selectedHouseDesign = product.getHouse();
+		if(component instanceof Foundation)
 		{
-			selectedHouseDesign.setFoundation((Foundation) selectedComponent.clone());
+			selectedHouseDesign.setFoundation((Foundation) component.clone());
 		}
-		if(selectedComponent instanceof Roof)
+		if(component instanceof Roof)
 		{
-			selectedHouseDesign.setRoof((Roof) selectedComponent.clone());
+			selectedHouseDesign.setRoof((Roof) component.clone());
 		}
-		if(selectedComponent instanceof Wall)
+		if(component instanceof Wall)
 		{
 			List<Wall> walls = selectedHouseDesign.getWalls();
 			if(walls == null)
 				walls = new ArrayList<Wall>();
-			walls.add((Wall) selectedComponent.clone());
+			walls.add((Wall) component.clone());
 			selectedHouseDesign.setWalls(walls);
 		}
-		if(selectedComponent instanceof Aperture)
+		if(component instanceof Aperture)
 		{
 			List<Wall> walls = selectedHouseDesign.getWalls();
 			if(walls != null)
@@ -65,10 +76,29 @@ public class HouseDesignService
 					List<Aperture> apertures = wall.getApertures();
 					if(apertures == null)
 						apertures = new ArrayList<Aperture>();
-					apertures.add((Aperture) selectedComponent.clone());
+					apertures.add((Aperture) component.clone());
 					wall.setApertures(apertures);
 				}
 			}
 		}
+	}
+
+	@Asynchronous
+	public Future<Product> completeHouseDesign(Product product) throws InterruptedException
+	{
+		// Fill in required features
+		List<Component> requiredFeatures = inventorySystemBroker.getRequiredFeatures(product);
+		for(Component requiredComponent : requiredFeatures)
+		{
+			addComponentToHouseDesign(product, requiredComponent);
+		}
+		
+		// Calculate cost
+		product.calculateIndicativeCost();
+		
+		Product finishedProduct = null;
+		finishedProduct = modellingSystemBroker.generateHouseDesign(product);
+	
+        return new AsyncResult<Product>(finishedProduct);
 	}
 }

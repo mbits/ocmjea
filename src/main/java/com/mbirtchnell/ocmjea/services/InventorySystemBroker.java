@@ -1,16 +1,23 @@
 package com.mbirtchnell.ocmjea.services;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.mbirtchnell.ocmjea.domain.Component;
 import com.mbirtchnell.ocmjea.domain.ComponentCategory;
 import com.mbirtchnell.ocmjea.domain.ComponentFactory;
 import com.mbirtchnell.ocmjea.domain.House;
+import com.mbirtchnell.ocmjea.domain.Product;
 
-public class InventorySystem
+public class InventorySystemBroker
 {
-	public static List<Component> getComponentsForComponentCategory(ComponentCategory selectedComponentCategory, House houseDesign)
+	public List<ComponentCategory> getComponentCategories()
+	{
+		return Arrays.asList(ComponentCategory.values());
+	}
+	
+	public List<Component> getComponentsForComponentCategory(ComponentCategory selectedComponentCategory, Product houseDesign)
 	{
 		System.out.println("Getting components for ComponentCategory " + selectedComponentCategory.getName());
 		List<Component> components = new ArrayList<Component>();
@@ -76,23 +83,36 @@ public class InventorySystem
 		return components;
 	}
 
-	public static List<House> getHouseDesigns()
+	public List<Product> getHouseDesigns()
 	{
-		List<House> houseDesigns = new ArrayList<House>();
+		List<Product> houseDesigns = new ArrayList<Product>();
 		
 		House houseOne = new House();
 		houseOne.setName("Californian bungalow");
-		houseDesigns.add(houseOne);
+		Product productOne = new Product();
+		productOne.setHouse(houseOne);
+		houseDesigns.add(productOne);
 		House houseTwo = new House();
 		houseTwo.setName("Brick clinker");
-		houseDesigns.add(houseTwo);
+		Product productTwo = new Product();
+		productTwo.setHouse(houseTwo);
+		houseDesigns.add(productTwo);
 		House houseThree = new House();
 		houseThree.setName("Townhouse");
-		houseDesigns.add(houseThree);
+		Product productThree = new Product();
+		productThree.setHouse(houseThree);
+		houseDesigns.add(productThree);
 		House houseFour = new House();
 		houseFour.setName("Family home");
-		houseDesigns.add(houseFour);
+		Product productFour = new Product();
+		productFour.setHouse(houseFour);
+		houseDesigns.add(productFour);
 		
 		return houseDesigns;
+	}
+
+	public List<Component> getRequiredFeatures(Product product)
+	{
+		return new ArrayList<Component>();
 	}
 }
