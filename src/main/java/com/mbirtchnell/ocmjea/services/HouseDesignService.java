@@ -14,23 +14,27 @@ import javax.persistence.PersistenceContext;
 import com.mbirtchnell.ocmjea.domain.Component;
 import com.mbirtchnell.ocmjea.domain.ComponentCategory;
 import com.mbirtchnell.ocmjea.domain.Product;
+import com.mbirtchnell.ocmjea.integration.ModellingSystemDAO;
+import com.mbirtchnell.ocmjea.integration.InventorySystemDAO;
+import com.sun.istack.logging.Logger;
 
 @Stateless
 public class HouseDesignService
 {
+	private static final Logger log = Logger.getLogger(HouseDesignService.class);
 	@PersistenceContext(unitName = "test")
 	private EntityManager entityManager;
 	
 	@EJB
-	private InventorySystemService inventorySystemService;
+	private InventorySystemDAO inventorySystemService;
 	
 	@EJB
-	private ModellingSystemService modellingSystemService;
+	private ModellingSystemDAO modellingSystemService;
 	
 	@PostConstruct
 	public void init()
 	{
-		System.out.println("Initializing...");
+		log.info("Initializing...");
 	}
 
 	public List<ComponentCategory> getComponentCategories()

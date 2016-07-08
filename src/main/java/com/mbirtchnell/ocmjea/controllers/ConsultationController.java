@@ -12,12 +12,14 @@ import javax.faces.bean.ViewScoped;
 import com.mbirtchnell.ocmjea.domain.CompletedDesign;
 import com.mbirtchnell.ocmjea.domain.FieldSalesRepresentative;
 import com.mbirtchnell.ocmjea.services.ConsultationService;
+import com.sun.istack.logging.Logger;
 
 @SuppressWarnings("serial")
 @ManagedBean
 @ViewScoped
 public class ConsultationController implements Serializable
 {
+	private static Logger log = Logger.getLogger(ConsultationController.class);
 	private String searchTerm;
 	private List<CompletedDesign> prospects = new ArrayList<CompletedDesign>();
 	private CompletedDesign selectedProspect;
@@ -30,6 +32,7 @@ public class ConsultationController implements Serializable
 	@PostConstruct
 	public void init()
 	{
+		log.info("Initializing");
 		consultationService.init();
 	}
 	

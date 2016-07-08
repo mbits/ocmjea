@@ -13,11 +13,13 @@ import javax.persistence.TypedQuery;
 
 import com.mbirtchnell.ocmjea.domain.CompletedDesign;
 import com.mbirtchnell.ocmjea.domain.Customer;
+import com.sun.istack.logging.Logger;
 
 @Stateful
 @TransactionAttribute(TransactionAttributeType.NEVER)
 public class ConsultationService
 {
+	private static final Logger log = Logger.getLogger(ConsultationService.class);
 	@PersistenceContext(unitName = "test", type=PersistenceContextType.EXTENDED)
 	private EntityManager entityManager;
 
@@ -33,6 +35,7 @@ public class ConsultationService
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 	public void init()
 	{
+		log.info("Initializing");
 		TypedQuery<Customer> q = entityManager.createQuery("SELECT c FROM Customer c", Customer.class);
 		List<Customer> results = (List<Customer>) q.getResultList();
 		if(results == null || results.isEmpty())

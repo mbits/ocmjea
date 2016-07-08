@@ -21,12 +21,14 @@ import com.mbirtchnell.ocmjea.domain.Customer;
 import com.mbirtchnell.ocmjea.domain.HouseDesignStatus;
 import com.mbirtchnell.ocmjea.domain.Product;
 import com.mbirtchnell.ocmjea.services.HouseDesignService;
+import com.sun.istack.logging.Logger;
 
 @SuppressWarnings("serial")
 @ManagedBean
 @ViewScoped
 public class HouseDesignController implements Serializable
 {
+	private static final Logger log = Logger.getLogger(HouseDesignController.class);
 	@EJB private HouseDesignService houseDesignService;
 	private String houseDesignName;
 	private Product selectedHouseDesign;
@@ -44,6 +46,7 @@ public class HouseDesignController implements Serializable
 	@PostConstruct
 	public void init()
 	{
+		log.info("Initializing");
 		if(getHouseDesigns() == null)
 			setHouseDesigns(houseDesignService.getHouseDesigns());
 		setComponentCategories(houseDesignService.getComponentCategories());

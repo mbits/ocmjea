@@ -1,4 +1,4 @@
-package com.mbirtchnell.ocmjea.services;
+package com.mbirtchnell.ocmjea.integration;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,12 +15,15 @@ import com.mbirtchnell.ocmjea.domain.House;
 import com.mbirtchnell.ocmjea.domain.Product;
 import com.mbirtchnell.ocmjea.domain.Roof;
 import com.mbirtchnell.ocmjea.domain.Wall;
+import com.sun.istack.logging.Logger;
 
 @Stateless
-public class InventorySystemService
+public class InventorySystemDAO
 {
+	private static final Logger log = Logger.getLogger(InventorySystemDAO.class);
 	public List<ComponentCategory> getComponentCategories()
 	{
+		log.info("Getting Component Categories");
 		return Arrays.asList(ComponentCategory.values());
 	}
 
