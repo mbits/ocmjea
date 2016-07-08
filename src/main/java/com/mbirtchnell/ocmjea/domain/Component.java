@@ -1,131 +1,128 @@
 package com.mbirtchnell.ocmjea.domain;
 
-public interface Component extends Prototypable
-{
-//	@Id @GeneratedValue private int id;
-//	private String name;
-//	private String details;
-//	private boolean isAvailable;
-//	private boolean isApplicable;
-//	@ManyToOne private Component parent;
-//	@OneToMany(mappedBy="parent") private List<Component> childComponents;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 
-	public String getId();
-//	{
-//		return id;
-//	}
-//
-	public void setId(String id);
-//	{
-//		this.id = id;
-//	}
-//	
-	public String getName();
-//	{
-//		return name;
-//	}
-//
-	public void setName(String name);
-//	{
-//		this.name = name;
-//	}
-//
-//	public String getDetails()
-//	{
-//		return details;
-//	}
-//	
-//	public void setDetails(String details)
-//	{
-//		this.details = details;
-//	}
-//	
-//	public boolean isAvailable()
-//	{
-//		return isAvailable;
-//	}
-//	
-//	public void setAvailable(boolean isAvailable)
-//	{
-//		this.isAvailable = isAvailable;
-//	}
-//
-//	public boolean isApplicable() 
-//	{
-//		return isApplicable;
-//	}
-//
-//	public void setApplicable(boolean isApplicable) 
-//	{
-//		this.isApplicable = isApplicable;
-//	}
-//
-//	public Component getParent()
-//	{
-//		return parent;
-//	}
-//
-//	public void setParent(Component parent)
-//	{
-//		this.parent = parent;
-//	}
-//
-//	public List<Component> getChildComponents()
-//	{
-//		return childComponents;
-//	}
-//
-//	public void setChildComponents(List<Component> childComponents)
-//	{
-//		this.childComponents = childComponents;
-//	}
-//	
-//	public void addToChildComponents(Component component)
-//	{
-//		List<Component> childComponents = getChildComponents();
-//		if(childComponents == null)
-//			childComponents = new ArrayList<Component>();
-//		childComponents.add(component);
-//		setChildComponents(childComponents);
-//	}
-//
-//	@Override
-//	public int hashCode()
-//	{
-//		final int prime = 31;
-//		int result = 1;
-//		result = prime * result + ((details == null) ? 0 : details.hashCode());
-//		result = prime * result + (isAvailable ? 1231 : 1237);
-//		result = prime * result + ((name == null) ? 0 : name.hashCode());
-//		return result;
-//	}
-//
-//	@Override
-//	public boolean equals(Object obj)
-//	{
-//		if(this == obj)
-//			return true;
-//		if(obj == null)
-//			return false;
-//		if(getClass() != obj.getClass())
-//			return false;
-//		Component other = (Component) obj;
-//		if(details == null)
-//		{
-//			if(other.details != null)
-//				return false;
-//		}
-//		else if(!details.equals(other.details))
-//			return false;
-//		if(isAvailable != other.isAvailable)
-//			return false;
-//		if(name == null)
-//		{
-//			if(other.name != null)
-//				return false;
-//		}
-//		else if(!name.equals(other.name))
-//			return false;
-//		return true;
-//	}
+@Entity
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
+public abstract class Component implements Prototypable<Component>
+{
+	@Id
+	protected String id;
+	private String name;
+	private String detail;
+	private String availability;
+	private String applicability;
+	
+	public Component()
+	{
+		this.id = IdGenerator.generateId();
+	}
+	
+	public String getId()
+	{
+		return id;
+	}
+
+	public void setId(String id)
+	{
+		this.id = id;
+	}
+	
+	public String getName()
+	{
+		return name;
+	}
+
+	public void setName(String name)
+	{
+		this.name = name;
+	}
+	
+	public String getDetail()
+	{
+		return detail;
+	}
+
+	public void setDetail(String detail)
+	{
+		this.detail = detail;
+	}
+
+	public String getAvailability()
+	{
+		return availability;
+	}
+
+	public void setAvailability(String availability)
+	{
+		this.availability = availability;
+	}
+
+	public String getApplicability()
+	{
+		return applicability;
+	}
+
+	public void setApplicability(String applicability)
+	{
+		this.applicability = applicability;
+	}
+
+	public Component clone(Class<? extends Component> clazz)
+	{
+		Component clone = null;
+		 
+		try
+		{
+		   clone = clazz.newInstance();
+		}
+		catch (InstantiationException e)
+		{
+		   e.printStackTrace();
+		}
+		catch (IllegalAccessException e)
+		{
+		   e.printStackTrace();
+		}
+		
+		clone.setName(this.name);
+		clone.setDetail(this.detail);
+		clone.setAvailability(this.availability);
+		clone.setApplicability(this.applicability);
+		return clone;
+	}
+
+	@Override
+	public int hashCode()
+	{
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		if(this == obj)
+			return true;
+		if(obj == null)
+			return false;
+		if(getClass() != obj.getClass())
+			return false;
+		Component other = (Component) obj;
+		if(id == null)
+		{
+			if(other.id != null)
+				return false;
+		}
+		else if(!id.equals(other.id))
+			return false;
+		return true;
+	}
 }

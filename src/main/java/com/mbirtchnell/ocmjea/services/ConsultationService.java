@@ -1,5 +1,6 @@
 package com.mbirtchnell.ocmjea.services;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.ejb.Stateful;
@@ -10,20 +11,21 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.persistence.TypedQuery;
 
+import com.mbirtchnell.ocmjea.domain.CompletedDesign;
 import com.mbirtchnell.ocmjea.domain.Customer;
 
 @Stateful
 @TransactionAttribute(TransactionAttributeType.NEVER)
-public class CustomerService
+public class ConsultationService
 {
 	@PersistenceContext(unitName = "test", type=PersistenceContextType.EXTENDED)
 	private EntityManager entityManager;
 
-	public List<Customer> searchByZipCode(String searchTerm)
+	public List<CompletedDesign> searchByZipCode(String searchTerm)
 	{
-		TypedQuery<Customer> q = entityManager.createQuery("SELECT c FROM Customer c WHERE zipCode = ?1", Customer.class);
+		TypedQuery<CompletedDesign> q = entityManager.createQuery("SELECT c FROM CompletedDesign c JOIN c.customer c2 WHERE c2.zipCode = ?1", CompletedDesign.class);
 		q.setParameter(1, searchTerm);
-		List<Customer> results = (List<Customer>) q.getResultList();
+		List<CompletedDesign> results = (List<CompletedDesign>) q.getResultList();
 		System.out.println("Customers found " + results.size());
 		return results;
 	}
@@ -45,6 +47,10 @@ public class CustomerService
 			customerOne.setStreet("1 Test Street");
 			customerOne.setState("Victoria");
 			customerOne.setCountry("Australia");
+			CompletedDesign designOne = new CompletedDesign();
+			designOne.setCustomer(customerOne);
+			customerOne.setCompletedDesigns(Arrays.asList(new CompletedDesign[] { designOne }));
+			entityManager.persist(designOne);
 			entityManager.persist(customerOne);
 			
 			Customer customerTwo = new Customer();
@@ -56,6 +62,10 @@ public class CustomerService
 			customerTwo.setStreet("2 Test Street");
 			customerTwo.setState("Victoria");
 			customerTwo.setCountry("Australia");
+			CompletedDesign designTwo = new CompletedDesign();
+			designTwo.setCustomer(customerTwo);
+			customerOne.setCompletedDesigns(Arrays.asList(new CompletedDesign[] { designTwo }));
+			entityManager.persist(designTwo);
 			entityManager.persist(customerTwo);
 			
 			Customer customerThree = new Customer();
@@ -67,6 +77,10 @@ public class CustomerService
 			customerThree.setStreet("3 Test Street");
 			customerThree.setState("Victoria");
 			customerThree.setCountry("Australia");
+			CompletedDesign designThree = new CompletedDesign();
+			designThree.setCustomer(customerThree);
+			customerOne.setCompletedDesigns(Arrays.asList(new CompletedDesign[] { designThree }));
+			entityManager.persist(designThree);
 			entityManager.persist(customerThree);
 			
 			Customer customerFour = new Customer();
@@ -78,8 +92,11 @@ public class CustomerService
 			customerFour.setStreet("4 Test Street");
 			customerFour.setState("Victoria");
 			customerFour.setCountry("Australia");
+			CompletedDesign designFour = new CompletedDesign();
+			designFour.setCustomer(customerFour);
+			customerOne.setCompletedDesigns(Arrays.asList(new CompletedDesign[] { designFour }));
+			entityManager.persist(designFour);
 			entityManager.persist(customerFour);
 		}
 	}
-
 }

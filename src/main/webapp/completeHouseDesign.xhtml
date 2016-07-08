@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:o="http://java.sun.com/jsf/composite/ocmjea">
+	<h:body>
+		<ui:composition template="WEB-INF/template.xhtml">
+			<ui:define name="content">
+		   	 	<h:form id="houseDesignFormID">
+		    		<o:selectHouseDesign houseDesignController="#{houseDesignController}" />
+		    		<h:panelGroup rendered="#{houseDesignController.selectedHouseDesign != null}">
+		    			<div>
+			    			<h:commandButton action="#{houseDesignController.completeHouseDesign}" value="Complete House Design"></h:commandButton>
+			    			<h:commandButton action="#{houseDesignController.pollCompletedHouseDesign}" value="" id="refreshCompleteDesignID" style="display: none;"></h:commandButton>
+		  				</div>
+		    		</h:panelGroup>
+		    		<h:panelGroup rendered="#{houseDesignController.selectedHouseDesign.status.name == 'COMPLETED'}">
+		    			<a href="#{houseDesignController.result}">Download</a>
+		    			<h:commandButton action="#{houseDesignController.acceptCompletedHouseDesign}" value="Accept Completed House Design"></h:commandButton>
+		    		</h:panelGroup>
+		    	</h:form>
+		    	<h:panelGroup rendered="#{houseDesignController.polling == true}">
+		    	<script type="text/javascript">
+		    			var poller = function poll()
+		    			{
+		    				document.getElementById('houseDesignFormID:refreshCompleteDesignID').click();
+		    			}
+		  				setTimeout(poller, 1000);
+				</script>
+				</h:panelGroup>
+			</ui:define>
+		</ui:composition>
+	</h:body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:cc="http://java.sun.com/jsf/composite"
+      xmlns:o="http://java.sun.com/jsf/composite/ocmjea">
+      
+	<cc:interface>
+		<cc:attribute name="houseDesignController" type="com.mbirtchnell.ocmjea.controllers.HouseDesignController" required="true"/>
+	</cc:interface>
+
+	<cc:implementation>
+  		<o:selectHouseDesign houseDesignController="#{houseDesignController}" />
+  	 	<h:panelGroup rendered="#{cc.attrs.houseDesignController.selectedHouseDesign != null}">
+   	 	<div>
+   	 		<label>Component Categories: </label>
+   			<h:selectOneMenu value="#{cc.attrs.houseDesignController.selectedComponentCategory}"> 
+   				<f:selectItem itemLabel="-- Select --" />
+   				<f:selectItems value="#{cc.attrs.houseDesignController.componentCategories}" var="itemForComponentCategory" itemValue="#{itemForComponentCategory}" itemLabel="#{itemForComponentCategory.name}"></f:selectItems>
+   			</h:selectOneMenu>
+   			<h:commandButton action="#{cc.attrs.houseDesignController.getComponentsForCategory()}" value="Get Components for Category"></h:commandButton>
+   		</div>
+  		</h:panelGroup>
+  		<h:panelGroup rendered="#{not empty cc.attrs.houseDesignController.components}">
+   		<div>
+   	 		<label>Components: </label>
+   			<h:selectOneMenu value="#{cc.attrs.houseDesignController.selectedComponent}" onchange="submit()"> 
+   				<f:selectItem itemLabel="-- Select --" />
+   				<f:selectItems value="#{cc.attrs.houseDesignController.components}" var="itemForComponent" itemValue="#{itemForComponent}" itemLabel="#{itemForComponent.name}"></f:selectItems>
+   			</h:selectOneMenu>
+   		</div>
+  		</h:panelGroup>
+  		<h:panelGroup rendered="#{cc.attrs.houseDesignController.selectedComponent != null}">
+  			<div>
+  				<h:outputText value="Detail: #{cc.attrs.houseDesignController.selectedComponent.detail}"></h:outputText>
+  			</div>
+  			<div>
+  				<h:outputText value="Availability: #{cc.attrs.houseDesignController.selectedComponent.availability}"></h:outputText>
+  			</div>
+  			<div>
+  				<h:outputText value="Applicability: #{cc.attrs.houseDesignController.selectedComponent.applicability}"></h:outputText>
+  			</div>
+  		</h:panelGroup>
+  	</cc:implementation>
+ 
+</html>

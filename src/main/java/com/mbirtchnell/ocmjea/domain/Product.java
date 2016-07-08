@@ -1,14 +1,18 @@
 package com.mbirtchnell.ocmjea.domain;
 
 import java.util.List;
-import java.util.UUID;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Product
 {
 	@Id private String id;
@@ -19,7 +23,7 @@ public class Product
 
 	public Product()
 	{
-		this.id = UUID.randomUUID().toString();
+		this.id = IdGenerator.generateId(); 
 		status = HouseDesignStatus.IN_PROGRESS;
 	}
 

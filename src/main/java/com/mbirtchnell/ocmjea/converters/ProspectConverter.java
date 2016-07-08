@@ -8,20 +8,20 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
 import com.mbirtchnell.ocmjea.controllers.ConsultationController;
-import com.mbirtchnell.ocmjea.domain.Customer;
+import com.mbirtchnell.ocmjea.domain.CompletedDesign;
 
-@FacesConverter(forClass=Customer.class)
-public class CustomerConverter implements Converter 
+@FacesConverter(forClass=CompletedDesign.class)
+public class ProspectConverter implements Converter 
 {
 	public Object getAsObject(FacesContext context, UIComponent uiComponent, String value)
 	{
 		ConsultationController viewBean = context.getApplication().evaluateExpressionGet(context, "#{consultationController}", ConsultationController.class);
-		List<Customer> components = viewBean.getCustomers();
+		List<CompletedDesign> components = viewBean.getProspects();
 		
-		Customer foundComponent = null;
-		for(Customer component : components)
+		CompletedDesign foundComponent = null;
+		for(CompletedDesign component : components)
 		{
-			if(component.getEmail().equals(value))
+			if(component.getCustomer().getEmail().equals(value))
 			{
 				foundComponent = component;
 				break;
@@ -33,14 +33,14 @@ public class CustomerConverter implements Converter
 	public String getAsString(FacesContext context, UIComponent uiComponent, Object obj)
 	{
 		ConsultationController viewBean = context.getApplication().evaluateExpressionGet(context, "#{consultationController}", ConsultationController.class);
-		List<Customer> components = viewBean.getCustomers();
+		List<CompletedDesign> components = viewBean.getProspects();
 		
 		String foundComponent = null;
-		for(Customer component : components)
+		for(CompletedDesign component : components)
 		{
 			if(component.equals(obj))
 			{
-				foundComponent = component.getEmail();
+				foundComponent = component.getCustomer().getEmail();
 				break;
 			}
 		}

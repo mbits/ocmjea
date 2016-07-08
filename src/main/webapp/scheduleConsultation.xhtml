@@ -5,37 +5,37 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core">
 	<h:body>
-		<ui:composition template="./template.xhtml">
+		<ui:composition template="WEB-INF/template.xhtml">
 			<ui:define name="content">
 				<h:form>
 					<h:inputText value="#{consultationController.searchTerm}"></h:inputText>
 					<h:commandButton action="#{consultationController.search}" value="Search"></h:commandButton>
-					<h:panelGroup rendered="#{consultationController.customers != null and not empty consultationController.customers}">
+					<h:panelGroup rendered="#{consultationController.prospects != null and not empty consultationController.prospects}">
 					<div>
-						<h:selectOneMenu value="#{consultationController.selectedCustomer}" onchange="submit()">
+						<h:selectOneMenu value="#{consultationController.selectedProspect}" onchange="submit()">
 		    				<f:selectItem itemLabel="-- Select --" />
-		    				<f:selectItems value="#{consultationController.customers}" var="itemForCustomer" itemValue="#{itemForCustomer}" itemLabel="#{itemForCustomer.fullName}"></f:selectItems>
+		    				<f:selectItems value="#{consultationController.prospects}" var="itemForProspect" itemValue="#{itemForProspect}" itemLabel="#{itemForProspect.customer.fullName}"></f:selectItems>
 		    			</h:selectOneMenu>
 		    		</div>
 		    		</h:panelGroup>
-		    		<h:panelGroup rendered="#{consultationController.selectedCustomer != null}">
+		    		<h:panelGroup rendered="#{consultationController.selectedProspect != null}">
 		    			<div>
-		    				<h:outputText value="Full Name: #{consultationController.selectedCustomer.fullName}"></h:outputText>
+		    				<h:outputText value="Full Name: #{consultationController.selectedProspect.customer.fullName}"></h:outputText>
 		    			</div>
 		    			<div>
-		    				<h:outputText value="Email: #{consultationController.selectedCustomer.email}"></h:outputText>
+		    				<h:outputText value="Email: #{consultationController.selectedProspect.customer.email}"></h:outputText>
 		    			</div>
 		    			<div>
-		    				<h:outputText value="Phone: #{consultationController.selectedCustomer.phone}"></h:outputText>
+		    				<h:outputText value="Phone: #{consultationController.selectedProspect.customer.phone}"></h:outputText>
 		    			</div>
 		    			<div>
-		    				<h:outputText value="Street: #{consultationController.selectedCustomer.street}"></h:outputText>
+		    				<h:outputText value="Street: #{consultationController.selectedProspect.customer.street}"></h:outputText>
 		    			</div>
 		    			<div>
-		    				<h:outputText value="State: #{consultationController.selectedCustomer.state}"></h:outputText>
+		    				<h:outputText value="State: #{consultationController.selectedProspect.customer.state}"></h:outputText>
 		    			</div>
 		    			<div>
-		    				<h:outputText value="Country: #{consultationController.selectedCustomer.country}"></h:outputText>
+		    				<h:outputText value="Country: #{consultationController.selectedProspect.customer.country}"></h:outputText>
 		    			</div>
 					</h:panelGroup>
 				</h:form>

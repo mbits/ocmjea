@@ -1,8 +1,11 @@
 package com.mbirtchnell.ocmjea.services;
 
+import javax.ejb.Stateless;
+
 import com.mbirtchnell.ocmjea.domain.Product;
 
-public class ModellingSystemBroker
+@Stateless
+public class ModellingSystemService
 {
 	public Product generateHouseDesign(Product product) throws InterruptedException
 	{

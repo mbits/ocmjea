@@ -1,15 +1,13 @@
 package com.mbirtchnell.ocmjea.domain;
 
 import javax.persistence.Entity;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Door extends Aperture
 {
-	@Override
-	public Prototypable clone()
-	{
-		Door clone = new Door();
-		clone.setName(getName());
-		return clone;
-	}
 }

@@ -1,6 +1,6 @@
 package com.mbirtchnell.ocmjea.domain;
 
-public interface Prototypable extends Cloneable
+public interface Prototypable<T> extends Cloneable
 {
-    public Prototypable clone();
+	public T clone(Class<? extends T> clazz);
 }

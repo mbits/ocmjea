@@ -6,42 +6,43 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
-import javax.inject.Named;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 
-import com.mbirtchnell.ocmjea.domain.Customer;
+import com.mbirtchnell.ocmjea.domain.CompletedDesign;
 import com.mbirtchnell.ocmjea.domain.FieldSalesRepresentative;
-import com.mbirtchnell.ocmjea.services.CustomerService;
+import com.mbirtchnell.ocmjea.services.ConsultationService;
 
 @SuppressWarnings("serial")
-@Named
-@SessionScoped
+@ManagedBean
+@ViewScoped
 public class ConsultationController implements Serializable
 {
-	private FieldSalesRepresentative fieldSalesRepresentative;
 	private String searchTerm;
-	private List<Customer> customers = new ArrayList<Customer>();
-	private Customer selectedCustomer;
+	private List<CompletedDesign> prospects = new ArrayList<CompletedDesign>();
+	private CompletedDesign selectedProspect;
+	private boolean scheduled;
+	private FieldSalesRepresentative fieldSalesRepresentative;
 	
 	@EJB
-	CustomerService customerService;
+	private ConsultationService consultationService;
 	
 	@PostConstruct
 	public void init()
 	{
-		customerService.init();
+		consultationService.init();
 	}
 	
 	public void search()
 	{
-		customers = customerService.searchByZipCode(searchTerm);
+		prospects = consultationService.searchByZipCode(searchTerm);
 	}
 
 	public FieldSalesRepresentative getFieldSalesRepresentative()
 	{
-		return fieldSalesRepresentative;
+		return this.fieldSalesRepresentative;
 	}
-
+	
 	public void setFieldSalesRepresentative(FieldSalesRepresentative fieldSalesRepresentative)
 	{
 		this.fieldSalesRepresentative = fieldSalesRepresentative;
@@ -57,23 +58,33 @@ public class ConsultationController implements Serializable
 		this.searchTerm = searchTerm;
 	}
 
-	public List<Customer> getCustomers()
+	public List<CompletedDesign> getProspects()
 	{
-		return customers;
+		return prospects;
 	}
 
-	public void setCustomers(List<Customer> customers)
+	public void setProspects(List<CompletedDesign> prospects)
 	{
-		this.customers = customers;
+		this.prospects = prospects;
 	}
 
-	public Customer getSelectedCustomer()
+	public CompletedDesign getSelectedProspect()
 	{
-		return selectedCustomer;
+		return selectedProspect;
 	}
 
-	public void setSelectedCustomer(Customer selectedCustomer)
+	public void setSelectedProspect(CompletedDesign selectedProspect)
 	{
-		this.selectedCustomer = selectedCustomer;
+		this.selectedProspect = selectedProspect;
+	}
+	
+	public boolean isScheduled()
+	{
+		return scheduled;
+	}
+
+	public void setScheduled(boolean isScheduled)
+	{
+		this.scheduled = isScheduled;
 	}
 }

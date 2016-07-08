@@ -8,10 +8,11 @@ import java.util.concurrent.Future;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.inject.Named;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import com.mbirtchnell.ocmjea.domain.CompletedDesign;
 import com.mbirtchnell.ocmjea.domain.Component;
@@ -30,7 +31,6 @@ public class HouseDesignController implements Serializable
 	private String houseDesignName;
 	private Product selectedHouseDesign;
 	private ComponentCategory selectedComponentCategory;
-	private List<Product> houseDesigns;
 	private List<ComponentCategory> componentCategories;
 	private List<Component> components;
 	private Component selectedComponent;
@@ -39,12 +39,13 @@ public class HouseDesignController implements Serializable
 	private boolean polling;
 	private Customer currentCustomer;
 	private CompletedDesign currentCompletedDesign;
+	private static final String HOUSE_DESIGNS = "houseDesigns";
 
 	@PostConstruct
 	public void init()
 	{
-		System.out.println("Initializing...");
-		setHouseDesigns(houseDesignService.getHouseDesigns());
+		if(getHouseDesigns() == null)
+			setHouseDesigns(houseDesignService.getHouseDesigns());
 		setComponentCategories(houseDesignService.getComponentCategories());
 		currentCustomer = new Customer();
 	}
@@ -57,7 +58,7 @@ public class HouseDesignController implements Serializable
 	public void addComponentToHouseDesign()
 	{
 		components = null;
-		houseDesignService.addComponentToHouseDesign(selectedHouseDesign, selectedComponent);
+		selectedHouseDesign = houseDesignService.addComponentToHouseDesign(selectedHouseDesign, selectedComponent);
 	}
 
 	public void completeHouseDesign()
@@ -157,14 +158,22 @@ public class HouseDesignController implements Serializable
 		this.selectedComponentCategory = selectedComponentCategory;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public List<Product> getHouseDesigns()
 	{
+		FacesContext context = FacesContext.getCurrentInstance();
+		HttpServletRequest request = (HttpServletRequest)context.getExternalContext().getRequest();
+		HttpSession httpSession = request.getSession(false);
+		List<Product> houseDesigns = (List<Product>) httpSession.getAttribute(HOUSE_DESIGNS);
 		return houseDesigns;
 	}
 
 	public void setHouseDesigns(List<Product> houseDesigns)
 	{
-		this.houseDesigns = houseDesigns;
+		FacesContext context = FacesContext.getCurrentInstance();
+		HttpServletRequest request = (HttpServletRequest)context.getExternalContext().getRequest();
+		HttpSession httpSession = request.getSession(false);
+		httpSession.setAttribute(HOUSE_DESIGNS, houseDesigns);
 	}
 
 	public List<ComponentCategory> getComponentCategories()

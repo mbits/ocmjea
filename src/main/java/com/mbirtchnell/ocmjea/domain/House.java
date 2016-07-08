@@ -2,15 +2,19 @@ package com.mbirtchnell.ocmjea.domain;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
-public class House implements Prototypable
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
+public class House implements Prototypable<House>
 {
 	@Id private String id;
 	@OneToOne private Foundation foundation;
@@ -20,7 +24,7 @@ public class House implements Prototypable
 	
 	public House()
 	{
-		this.id = UUID.randomUUID().toString();
+		this.id = IdGenerator.generateId(); 
 	}
 	
 	public String getId()
@@ -90,22 +94,21 @@ public class House implements Prototypable
 		return summary;
 	}
 	
-	@Override
-	public Prototypable clone()
+	public House clone(Class<? extends House> clazz)
 	{
 		House clone = new House();
 		clone.setName(name);
 		if(getFoundation() != null)
-			clone.setFoundation((Foundation) getFoundation().clone());
+			clone.setFoundation((Foundation) getFoundation().clone(Foundation.class));
 		if(getRoof() != null)
-			clone.setRoof((Roof) getRoof().clone());
+			clone.setRoof((Roof) getRoof().clone(Roof.class));
 		if(getWalls() != null)
 		{
 			List<Wall> walls = getWalls();
 			List<Wall> clonedWalls = new ArrayList<Wall>();
 			for(Wall wall : walls)
 			{
-				clonedWalls.add((Wall) wall.clone());
+				clonedWalls.add((Wall) wall.clone(Wall.class));
 			}
 			clone.setWalls(clonedWalls);
 		}
