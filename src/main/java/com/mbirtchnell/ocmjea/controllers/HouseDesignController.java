@@ -55,7 +55,7 @@ public class HouseDesignController implements Serializable
 
 	public void getComponentsForCategory()
 	{
-		components = houseDesignService.getComponentsForComponentCategory(selectedComponentCategory, selectedHouseDesign);
+		components = houseDesignService.getComponentsForCategory(selectedComponentCategory, selectedHouseDesign);
 	}
 
 	public void addComponentToHouseDesign()

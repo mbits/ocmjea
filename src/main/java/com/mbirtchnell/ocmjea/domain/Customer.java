@@ -16,7 +16,7 @@ public class Customer
 	private String email;
 	private String zipCode;
 	@OneToMany private List<CompletedDesign> completedDesigns;
-	@OneToMany private List<Customer> customers;
+	@OneToMany private List<Consultation> consultations;
 	private String street;
 	private String state;
 	private String country;
@@ -77,16 +77,16 @@ public class Customer
 		this.completedDesigns = completedDesigns;
 	}
 	
-	public List<Customer> getCustomers()
+	public List<Consultation> getConsultations() 
 	{
-		return customers;
+		return consultations;
 	}
 
-	public void setCustomers(List<Customer> customers)
+	public void setConsultations(List<Consultation> consultations) 
 	{
-		this.customers = customers;
+		this.consultations = consultations;
 	}
-	
+
 	public String getZipCode()
 	{
 		return zipCode;

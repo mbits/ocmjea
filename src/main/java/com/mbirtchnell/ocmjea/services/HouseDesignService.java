@@ -42,9 +42,9 @@ public class HouseDesignService
 		return inventorySystemService.getComponentCategories();
 	}
 
-	public List<Component> getComponentsForComponentCategory(ComponentCategory componentCategory, Product houseDesign)
+	public List<Component> getComponentsForCategory(ComponentCategory componentCategory, Product houseDesign)
 	{
-		return inventorySystemService.getComponentsForComponentCategory(componentCategory, houseDesign);
+		return inventorySystemService.getComponentsForCategory(componentCategory, houseDesign);
 	}
 
 	public List<Product> getHouseDesigns()
