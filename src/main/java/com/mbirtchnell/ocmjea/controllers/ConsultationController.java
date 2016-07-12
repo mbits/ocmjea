@@ -3,6 +3,7 @@ package com.mbirtchnell.ocmjea.controllers;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -18,6 +19,7 @@ import com.mbirtchnell.ocmjea.services.ConsultationService;
 @ViewScoped
 public class ConsultationController implements Serializable
 {
+	private static Logger log = Logger.getLogger("ConsultationController");
 	private String searchTerm;
 	private List<CompletedDesign> prospects = new ArrayList<CompletedDesign>();
 	private CompletedDesign selectedProspect;
@@ -30,6 +32,7 @@ public class ConsultationController implements Serializable
 	@PostConstruct
 	public void init()
 	{
+		log.info("Initializing");
 		consultationService.init();
 	}
 	

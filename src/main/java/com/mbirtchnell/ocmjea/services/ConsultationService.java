@@ -2,6 +2,7 @@ package com.mbirtchnell.ocmjea.services;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.ejb.Stateful;
 import javax.ejb.TransactionAttribute;
@@ -18,6 +19,7 @@ import com.mbirtchnell.ocmjea.domain.Customer;
 @TransactionAttribute(TransactionAttributeType.NEVER)
 public class ConsultationService
 {
+	private static final Logger log = Logger.getLogger("ConsultationService");
 	@PersistenceContext(unitName = "test", type=PersistenceContextType.EXTENDED)
 	private EntityManager entityManager;
 
@@ -33,6 +35,7 @@ public class ConsultationService
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 	public void init()
 	{
+		log.info("Initializing");
 		TypedQuery<Customer> q = entityManager.createQuery("SELECT c FROM Customer c", Customer.class);
 		List<Customer> results = (List<Customer>) q.getResultList();
 		if(results == null || results.isEmpty())

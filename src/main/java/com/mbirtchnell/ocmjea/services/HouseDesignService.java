@@ -2,6 +2,7 @@ package com.mbirtchnell.ocmjea.services;
 
 import java.util.List;
 import java.util.concurrent.Future;
+import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.AsyncResult;
@@ -14,23 +15,26 @@ import javax.persistence.PersistenceContext;
 import com.mbirtchnell.ocmjea.domain.Component;
 import com.mbirtchnell.ocmjea.domain.ComponentCategory;
 import com.mbirtchnell.ocmjea.domain.Product;
+import com.mbirtchnell.ocmjea.integration.InventorySystemDAO;
+import com.mbirtchnell.ocmjea.integration.ModellingSystemDAO;
 
 @Stateless
 public class HouseDesignService
 {
+	private static final Logger log = Logger.getLogger("HouseDesignService");
 	@PersistenceContext(unitName = "test")
 	private EntityManager entityManager;
 	
 	@EJB
-	private InventorySystemService inventorySystemService;
+	private InventorySystemDAO inventorySystemService;
 	
 	@EJB
-	private ModellingSystemService modellingSystemService;
+	private ModellingSystemDAO modellingSystemService;
 	
 	@PostConstruct
 	public void init()
 	{
-		System.out.println("Initializing...");
+		log.info("Initializing...");
 	}
 
 	public List<ComponentCategory> getComponentCategories()
