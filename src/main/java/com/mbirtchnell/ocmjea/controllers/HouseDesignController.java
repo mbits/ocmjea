@@ -42,6 +42,7 @@ public class HouseDesignController implements Serializable
 	@PostConstruct
 	public void init()
 	{
+		log.info("Initializing");
 		setComponentCategories(houseDesignService.getComponentCategories());
 		currentCustomer = new Customer();
 	}
