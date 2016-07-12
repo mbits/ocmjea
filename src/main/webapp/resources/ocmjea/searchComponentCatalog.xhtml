@@ -9,10 +9,11 @@
       
 	<cc:interface>
 		<cc:attribute name="houseDesignController" type="com.mbirtchnell.ocmjea.controllers.HouseDesignController" required="true"/>
+		<cc:attribute name="houseDesignSession" type="com.mbirtchnell.ocmjea.controllers.HouseDesignSession" required="true"/>
 	</cc:interface>
 
 	<cc:implementation>
-  		<o:selectHouseDesign houseDesignController="#{houseDesignController}" />
+  		<o:selectHouseDesign houseDesignController="#{houseDesignController}" houseDesignSession="#{houseDesignSession}"/>
   	 	<h:panelGroup rendered="#{cc.attrs.houseDesignController.selectedHouseDesign != null}">
    	 	<div>
    	 		<label>Component Categories: </label>

@@ -9,7 +9,7 @@
 		<ui:composition template="WEB-INF/template.xhtml">
 			<ui:define name="content">
 		   	 	<h:form id="houseDesignFormID">
-		    		<o:searchComponentCatalog houseDesignController="#{houseDesignController}" />
+		    		<o:searchComponentCatalog houseDesignController="#{houseDesignController}" houseDesignSession="#{houseDesignSession}"/>
 		    		<h:panelGroup rendered="#{houseDesignController.selectedComponent != null}">
 		    			<div>
 			    			<h:outputText value="#{houseDesignController.selectedComponent.name}: "></h:outputText>

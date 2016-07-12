@@ -24,7 +24,7 @@ public class InventorySystemService
 		return Arrays.asList(ComponentCategory.values());
 	}
 
-	public List<Component> getComponentsForComponentCategory(ComponentCategory selectedComponentCategory, Product product)
+	public List<Component> getComponentsForCategory(ComponentCategory selectedComponentCategory, Product product)
 	{
 		System.out.println("Getting components for ComponentCategory " + selectedComponentCategory.getName());
 		List<Component> components = new ArrayList<Component>();
