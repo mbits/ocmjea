@@ -4,23 +4,19 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
-import javax.ejb.Stateful;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
 import javax.persistence.TypedQuery;
 
 import com.mbirtchnell.ocmjea.domain.CompletedDesign;
 import com.mbirtchnell.ocmjea.domain.Customer;
 
-@Stateful
-@TransactionAttribute(TransactionAttributeType.NEVER)
+@Stateless
 public class ConsultationService
 {
 	private static final Logger log = Logger.getLogger("ConsultationService");
-	@PersistenceContext(unitName = "test", type=PersistenceContextType.EXTENDED)
+	@PersistenceContext(unitName = "test")
 	private EntityManager entityManager;
 
 	public List<CompletedDesign> searchByZipCode(String searchTerm)
@@ -32,7 +28,6 @@ public class ConsultationService
 		return results;
 	}
 
-	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 	public void init()
 	{
 		log.info("Initializing");
